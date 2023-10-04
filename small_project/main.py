@@ -14,14 +14,15 @@ def main():
     #iterator for the game
     # collect information about the player
     user_collection()
-    print("""
-        
-        Remember to use 'q' to quit
-        
-        """)
+    print(
+    """
+    
+    Remember to use 'q' to quit
+    ---------------------------
+    
+    """)
     # greet our player
     print(f' Hello {user["name"]}.')
-    print(" *************")
     #sleep timer 1 seconds
     time.sleep(1)
     # round counter initializer variable.
@@ -29,13 +30,15 @@ def main():
     while True:
         # Round counter
         round += 1
-        print(f" Round: {round}")
-        # conditional to break on user input
-        if user_entry == 'q':
-            print("Good Bye!").upper()
-            break        
+        print(f"Player: {user.get('name')}")
+        if user.get('score') == None:
+            print("Score: 0")
+        else:
+            print(f"Score: {user.get('score')}")
+        print(f"Round: {round}")
         # Call the game function
         game()
+        
 
 #Call main function
 if __name__ == "__main__":

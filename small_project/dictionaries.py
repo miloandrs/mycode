@@ -14,8 +14,7 @@ word_pool_dict = {
 # Initialize empty dictionary for user collection.
 user = {}
 
-# initiate list for used words
-used_words = []
+
 
 
 
