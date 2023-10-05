@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
-from dictionaries import *
-from functions import *
 import time
+import dictionaries
+import functions
 
 """
 Camilo Castro
 Project script to a vocabulary enhancement game.
 """
-
-#Run-time code
 def main():
-    introduction()
+    """main function"""
+    functions.introduction()
     #iterator for the game
     # collect information about the player
-    user_collection()
+    functions.user_collection()
     print(
     """
     
@@ -22,24 +21,23 @@ def main():
     
     """)
     # greet our player
-    print(f' Hello {user["name"]}.')
+    print(f' Hello {functions.user["name"]}.')
     #sleep timer 1 seconds
     time.sleep(1)
-    # round counter initializer variable.
-    round = 0
+    # Sequence counter initializer variable.
+    sequence = 0
     while True:
-        # Round counter
-        round += 1
-        print(f"Player: {user.get('name')}")
-        if user.get('score') == None:
+        # Sequenece counter
+        sequence += 1
+        print(f"Player: {functions.user.get('name')}")
+        if functions.user.get('score') is None:
             print("Score: 0")
         else:
-            print(f"Score: {user.get('score')}")
-        print(f"Round: {round}")
+            print(f"Score: {functions.user.get('score')}")
+        print(f"Round: {sequence}")
         # Call the game function
-        game()
-        
+        functions.game()
 
-#Call main function
 if __name__ == "__main__":
+    # Call main function
     main()
