@@ -11,11 +11,11 @@ Project script for a vocabulary game.
 def populator():
     """function to populate dictionaries"""
     #open and populate word file
-    with open('small_project/word_pool.txt', 'r') as wp:
+    with open('word_pool.txt', 'r') as wp:
         for line in wp:
             dictionaries.word_pool.append(line.strip(' \n'))
     #open word_pool_dict file 
-    with open('small_project/jsondict.json') as wpc:
+    with open('jsondict.json') as wpc:
         dictionaries.word_pool_dict = json.load(wpc)
     
 
