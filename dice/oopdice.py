@@ -18,9 +18,9 @@ class Player():
             #This adds 3 random numbers from 1 to 6 into the dice list
             self.dice.append(randint(1,6))
 
-        #method to det the values of the dice
-        def get_dice(self):
-            return self.dice
+    #method to det the values of the dice
+    def get_dice(self):
+        return self.dice
 
 def main():
     """run time code"""

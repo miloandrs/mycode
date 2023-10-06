@@ -5,12 +5,8 @@ Project script to a vocabulary enhancement game.
 """
 
 #initiate display word dictionary
-word_pool = ["aberration", "abhor"]
-
-word_pool_dict = {
-    "aberration": ["anomaly", "deviation", "abnormality"], 
-    "abhor":["deterst", "hate", "loathe"]
-    }
+word_pool = []
+word_pool_dict = {}
 # Initialize empty dictionary for user collection.
 user = {}
 
