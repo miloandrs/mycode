@@ -1,0 +1,14 @@
+---
+- name: Playbook - Install figlet #Name of your playbook
+  hosts: planetexpress:!farnsworth #Inventory from a group except one host
+  connection: ssh #connection medium
+  gather_facts: yes #I think this is to get informaiton on the host
+
+
+
+  tasks:
+  - name: using apt to install figlet #Name of the task
+    ansible.builtin.apt: #Ansible module to be ran
+      name: figlet #Name of the software we want to install
+      state: present #This means we want to tell ansible this needs to be int he system
+    become: yes #This has to do with privilege escalation.
