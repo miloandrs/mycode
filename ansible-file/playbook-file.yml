@@ -1,0 +1,21 @@
+---
+- name: A playboot to show the file module
+  hosts: planetexpress
+  connection: ssh
+  gather_facts: no
+
+
+  vars:
+    st: absent #this will correct what the script did 
+
+  tasks:
+  - name: "Create directory where Space Station documents will reside"
+    become_user: root
+    become: true
+    file:
+      path: "/home/{{ item }}/station_docs/"
+      state: "{{ st }}"
+      owner: "{{ item }}"
+      group: "{{ item }}"
+      mode: "0755"
+    loop: [fry, bender, zoidberg]

@@ -1,0 +1,12 @@
+---
+- name: Getting files
+  hosts: planetexpress
+  connection: ssh
+  gather_facts: no
+
+  tasks:
+    - name: "Download virus protection software to install on hosts"
+      ansible.builtin.get_url:
+        url: http://www.clamav.net/downloads/production/clamav-0.99.3.tar.gz
+        dest: ~/clamav-0.99.3.tar.gz
+
