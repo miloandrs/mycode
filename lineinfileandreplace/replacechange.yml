@@ -1,0 +1,18 @@
+---
+- name: Exploring Replace
+  hosts: planetexpress:!farnsworth
+
+
+  vars: 
+    - fileloc: "/var/log/bootstrap.log"
+
+
+  tasks:
+    - name: "Insert a line into {{ fileloc }}"
+      ansible.builtin.replace:
+        path: "{{ fileloc }}"
+        regexp: "^Setting up lib.*"
+        replace: "REDACTED BY ANSIBLE replace module"
+        backup: yes
+      become: true
+
