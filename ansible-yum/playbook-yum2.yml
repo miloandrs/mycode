@@ -1,0 +1,24 @@
+---
+- name: Install sl with yum
+  hosts: planetexpress
+
+
+  tasks:
+    - name: Install Steam Locomotive with yum
+      ansible.builtin.yum:
+        name: sl
+        state: present
+
+      become: yes
+      when: ansible_distribution == "CentOS"
+
+
+
+    tasks:
+    - name: Install Steam Locomotive with apt
+      ansible.builtin.apt:
+        name: sl
+        state: present
+
+      become: yes
+      when: ansible_distribution == "Ubuntu"
