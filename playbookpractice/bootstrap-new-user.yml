@@ -20,14 +20,14 @@
     become: yes
 
   #create a new group
-  - name: "Create the new group sandbox"
+  - name: Create the new group sandbox
     ansible.builtin.group:
       name: sandbox
       state: present
     become: yes
 
   # create new user on target system
-  - name: "Add user 'exampleuser' with group of 'sandbox'"
+  - name: Add user 'exampleuser' with group of 'sandbox'
     ansible.builtin.user:
       name: exampleuser
       comment: "Example User"
