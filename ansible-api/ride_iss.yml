@@ -1,0 +1,32 @@
+---
+- name: Query an open API
+  hosts: localhost
+  connection: local
+
+  vars:
+      majortom: 'http://api.open-notify.org/astros.json'
+
+  tasks:
+    - name: Send and HTTP GET to API
+      ansible.builtin.uri:
+        method: GET
+        url: "{{ majortom }}"
+      register: data #This puts the value of the request into a variable.
+
+
+
+    - name: Use debug to show what is inside out variable
+      ansible.builtin.debug:
+        msg: "{{ data }}"
+
+    - name: Slice the variable to only return the json
+      ansible.builtin.debug:
+        msg: "{{ data.get('json') }}"
+
+
+
+
+    - name: Use debug with a loop to iterate through the data
+      ansible.builtin.debug:
+        msg: "On the {{ item.get('craft') }} is: {{ item.get('name') }}"
+      loop: "{{ data.get('json').get('people') }}"
