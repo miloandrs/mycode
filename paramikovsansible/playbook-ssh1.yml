@@ -1,0 +1,26 @@
+---
+- name: Using Ansible to ensure files are created
+  hosts: planetexpress     # this is a group name defined within an inventory file
+  connection: ssh          # this is what we are exploring
+                           # Ansible wants to use native OpenSSH (packaged with linux),
+                           # it will fallback to Paramiko (python version of SSH) if the version
+                           # of OpenSSH on your local machine isn't recent
+
+  gather_facts: no         # no need to gather facts on remote hosts (runs setup.py at the top)
+
+  tasks:
+  - name: Use file module to ensure files are created
+    copy:
+      content: ""
+      dest: ~/more-goodnews.everyone
+      force: no  # force creation if empty file does not exist
+
+  - name: Search for all files within a folder
+    find:
+        path: ~/
+    register: results
+
+  - name: Show results
+    debug:
+            var: results
+
