@@ -27,4 +27,6 @@ sw-1
 sw-2
 
 [eosswitches:vars]
+ansible_user=admin
 ansible_network_os=eos
+
