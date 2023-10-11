@@ -1,0 +1,15 @@
+---
+- name: Tuesday Challenge
+  hosts: planetexpress:!farnsworth
+  connection: ssh
+  gather_facts: yes
+
+  tasks:
+  - name: print out the variable named "result"
+    debug:
+      var: result
+  - ansible.builtin.apt:
+      name: sl
+      state: present
+    name: using apt to install sl
+    register: result
