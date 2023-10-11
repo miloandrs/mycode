@@ -1,0 +1,38 @@
+---
+- name: Network Agnostic Playbook 
+  hosts: aristaswitchessecure
+  gather_facts: no
+  
+  vars:
+    ansible_ssh_pass: alta3
+    dnsserver: "8.8.8.8"
+  
+  tasks: 
+  - name: CONFIGURE DNS 
+    cli_config: 
+      config: ip name-server {{ dnsserver }}
+
+  - name: CHECK CONFIGURATION 
+    cli_command: 
+      command: show run | i ip name-server 
+    register: results 
+
+    # Turning off our debug statement.
+    # We no longer need this step as we now know what we're looking for
+  - name: PRINT OUTPUT TO SCREEN 
+    debug: 
+      var: results.stdout
+      verbosity: 1
+
+    # Let's create a new variable based on some dynamic data.
+    # If our command worked, we know it should respond ip name-server vrf default www.xxx.yy.zzz
+    # Where www.xxx.yyy.zzz should be the IP address passed to our playbook for dnsserver
+  - set_fact:
+      expected_output: "ip name-server vrf default {{ dnsserver }}"
+
+    # now perform our post-check. We want the playbook to FAIL if we didn't get our expected output
+  - fail:
+      msg: failing
+    when: expected_output not in results.stdout
+
+
