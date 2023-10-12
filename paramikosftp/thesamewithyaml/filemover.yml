@@ -1,0 +1,20 @@
+---
+- name: Moving files with Ansible using SSH
+  hosts: mvp              # the group name we wish to run the tasks against
+                          # being descriptive is helpful
+                          # here the group name suggests these servers are in a
+                          # data center in USA Pennsylvania, and involved in
+                          # providing network function virtualization (NFV) services
+
+  connection: ssh         # use native OpenSSH if possible, otherwise, use paramiko
+  gather_facts: no        # do not audit target hosts (do not run setup.py)
+  # forks: 5              # how many simultaneous connections (default 5)
+
+  tasks:
+  - name: Copy files from local host to target hosts
+    copy:
+        src: /home/student/filestocopy/     # location of files on our local machine
+        dest: ~/                            # Python does not allow the use of "~/"
+
+
+

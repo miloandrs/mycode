@@ -1,0 +1,20 @@
+---
+- name: Avoiding the use of the raw module
+  hosts: mvp
+  connection: ssh
+  gather_facts: yes
+
+  tasks:
+
+  - name: Create a file over SSH
+    ansible.builtin.copy:
+      content: ansible_env.LOGNAME
+      dest: Lognamefile.txt
+      force: yes #remote file will be replaces when contents are different than source
+
+
+  - name: Create a second file over SSH
+    ansible.builtin.copy:
+      content: "Hello World"
+      dest: Holi2.txt
+      force: yes

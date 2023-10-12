@@ -1,0 +1,12 @@
+---
+- name: Install sshpass
+  hosts: mvp
+  # connection and gathering facts left default
+
+
+  tasks:
+  - name: Install sshpass using apt
+    ansible.builtin.apt:
+      name: sshpass
+      state: present
+    become: yes

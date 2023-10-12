@@ -1,0 +1,14 @@
+---
+- name: Exploring Ansible Raw
+  hosts: mvp
+  connection: ssh
+  gather_facts: no
+
+  
+  tasks:
+  - name: Create a file over SSH
+    ansible.builtin.raw: echo $HOSTNAME > hosty.txt
+
+  - name: Create a second file
+    ansible.builtin.raw: echo "Hello World" > Holi.txt
+
