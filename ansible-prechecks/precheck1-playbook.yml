@@ -1,0 +1,20 @@
+---
+- name: Building precheck failures
+  hosts: arista_switches
+  connection: network_cli
+  become: yes
+  become_method: enable
+  gather_facts: yes
+
+
+  vars:
+    ansible_ssh_pass: alta3 #In the real world, this is encrypted
+
+
+  tasks:
+
+  #dig into the data we want to reveal
+  - name: Getting at network interfaces
+    ansible.builtin.debug:
+      var: ansible_facts
+    

@@ -1,0 +1,22 @@
+---
+# tasks file for roles/alta3.aristaeos.precheck
+#
+# dig into the data we want to reveal
+- name: Getting at network interfaces
+  debug:
+   var: ansible_facts
+   verbosity: 1
+
+# build a precheck condition where the playbook will FAIL if a condition is not met
+- name: "Precheck condition - Is switch running image {{ switch_image }}"
+  fail:
+    msg: "This switch does not appear to have the correct image loaded. Exiting..."
+  when: ansible_facts.net_image != switch_image
+
+
+# build a precheck condition where the playbook will FAIL if a condition is not met
+- name: "Precheck condition - Is switch running image version {{ switch_image_version }}"
+  fail:
+    msg: "This switch does not appear to have the correct version of the firmware loaded. Exiting..."
+  when: ansible_facts.net_version != switch_image_version
+
