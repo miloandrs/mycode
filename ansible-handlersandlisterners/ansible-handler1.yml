@@ -1,0 +1,43 @@
+---
+- name: Apache server installed
+  hosts: web
+  gather_facts: no
+  become: yes
+
+  tasks:
+
+  #This package module will try to select apt, yum or pkg5 automatically.
+  - name: latest Apache version installed
+    ansible.builtin.package:
+      name: apache2
+      state: present
+
+  - name: Apache enabled and running
+    ansible.builtin.service:
+      name: apache2
+      enabled: yes
+      state: started
+
+  #Copy index.html into service
+  - name: copy index.html
+    ansible.builtin.copy:
+      src: ~/mycode/ansible-handlersandlisterners/files/index.html
+      dest: /var/www/html/
+      
+  # if dest is directory download every time
+  # but only replace if destination is different
+  - name: Download a copy of apache2.conf
+    get_url:
+      url: https://raw.githubusercontent.com/rzfeeser/alta3files/master/apache2.conf
+      dest: /etc/apache2/
+    notify:
+        - restart_apache
+
+  # This will ONLY run if the associated tasks run
+  # no matter how many times called these tasks
+  # will ONLY run once
+  handlers:
+  - name: restart_apache
+    service:
+      name: apache2
+      state: restarted
