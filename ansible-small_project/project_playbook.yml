@@ -13,9 +13,9 @@
     carrots: 3 
 
     facts:
-      - "{{ ansible_facts.processor[1] }}"
-      - "{{ ansible_facts.chassis_version }}"
-      - "{{ ansible_facts.distribution_release }}"
+      - "{{ ansible_processor[1] }}"
+      - "{{ ansible_chassis_version }}"
+      - "{{ ansible_distribution_release }}"
 
 
 

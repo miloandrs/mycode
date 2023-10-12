@@ -44,3 +44,7 @@ ansible_become=yes
 ansible_become_method=enable
 ansible_user=admin
 
+[mvp]
+alpha
+bravo
+charlie
