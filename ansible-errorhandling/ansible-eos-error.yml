@@ -1,0 +1,55 @@
+---
+- name: Arista playbook that triggers failure
+  hosts: arista_switches
+  connection: network_cli
+  become: yes
+  become_method: enable
+  gather_facts: no
+
+  vars:
+          ansible_ssh_pass: alta3   # this should be encrypted with Ansible Vault
+
+  tasks:
+
+          - name: Back up current running config
+            arista.eos.eos_config:
+              backup: yes
+            register: results
+            when: ansible_network_os == 'eos'
+
+          - name: Debug the current switch running config
+            debug:
+                    var: results
+                    verbosity: 1    # we no longer need this task to run every time
+            
+          # A block is what we want to "try" to do
+          - name: Block of change modifications to our switch
+            block:
+                    - name: configure the login banner
+                      arista.eos.eos_banner:
+                        banner: login
+                        text: |
+                          this is my login banner
+                          that contains a multiline
+                          string
+                          if this works correctly
+                          we should never see the banner because the
+                          config will be rolled back by our rescue
+                        state: present
+
+                    - name: trigger a failure (to prompt rescue)
+                      shell: "/bin/false"
+
+            # this is where our roll back code is stored
+            # this code will only run if the code within the block encounters a failure
+            rescue:
+                    - name: load configuration from file
+                      arista.eos.eos_config:
+                              src: "{{ results.backup_path }}"
+                              replace: config       # we want to replace the entire config
+                              
+            always:
+                    - name: Some task you "ALWAYS" want to perform
+                      debug:
+                              msg: "An ALWAYS tasks might be the mail module, to send an email to engineers or logging indicating a job just ran and its status."
+

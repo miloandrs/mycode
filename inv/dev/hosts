@@ -48,3 +48,12 @@ ansible_user=admin
 alpha
 bravo
 charlie
+
+
+[arista_switches]
+sw-1
+sw-2
+
+[arista_switches:vars]
+ansible_user=admin
+ansible_network_os=eos

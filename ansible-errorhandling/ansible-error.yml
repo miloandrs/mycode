@@ -1,0 +1,19 @@
+---
+- name: First Error Handling 
+  hosts: planetexpress
+  connection: ssh
+  gather_facts: no #This is changed from the default
+
+  tasks:
+
+  - name: Block os tasks 
+    block: #This is keyword signaling a block of tasks
+
+      - name: The first task 
+        shell: "echo 'My single task ran' > example.txt"
+       
+      - name: The second task
+        shell: "echo 'My second task ran' >> example.txt"
+       
+      - name: The third task
+        shell: "echo 'My third task ran' >> example.txt"  
