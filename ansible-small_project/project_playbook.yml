@@ -1,0 +1,54 @@
+---
+- name: Gathering facts     #Name of the play
+  hosts: mvp                #Group of hosts just created
+  connection: ssh           #specific connection
+  gather_facts: yes         #facts gathering
+  
+  #Variables for the grocery_list.txt.j2 template
+  vars:
+    bread: Ezekiel 4:9
+    milk: 1% 
+    eggs: Dozen Organic
+    tomatoes: 6 
+    carrots: 3 
+
+    facts:
+      - "{{ ansible_facts.processor[1] }}"
+      - "{{ ansible_facts.chassis_version }}"
+      - "{{ ansible_facts.distribution_release }}"
+
+
+
+  tasks:
+
+    - name: print the gathered facts                                  #name of the task
+      ansible.builtin.debug:                                          #ansible module
+        msg: "Processor: {{ ansible_facts.processor[1] }}                
+              Chassis: {{ ansible_facts.chassis_version }}
+              Release: {{ ansible_facts.distribution_release }}"     #Debug message with my facts
+
+    - name: Copy Camilo's file                    # name of this task
+      ansible.builtin.copy:                       # name of the ansible module
+          src: ~/mycode/Camilo_copied_this.txt    # Source file
+          dest: ~/Camilo_copied_this.txt          # Destination file
+
+    - name: Install figlet because I think it is cool #name of this task
+      ansible.builtin.apt:                            #name of the ansible module
+        name: figlet                                  #name of the software
+        state: present                                #this represents I want ansible to install
+      become: yes                                     #this means that it needs to use privilege escalation
+
+    - name: Grocery list
+      ansible.builtin.template:
+        src: ~/mycode/ansible-small_project/template/grocerylist.txt.j2
+        dest: ~/Grocery_list.txt
+
+    - name:  place a file in the remote machine with facts
+      ansible.builtin.template:
+        src: ~/mycode/ansible-small_project/template/about_this_host.j2 
+        dest: ~/hosts_facts.txt
+
+    - name: loop
+      ansible.builtin.debug:
+        msg: "Some facts {{ item }}"
+      loop: "{{ facts }}"
