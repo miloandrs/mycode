@@ -34,7 +34,7 @@ def main():
         # Sequenece counter
         sequence += 1
         dictionaries.user["round"] = sequence
-        print(f"Round: {dictionaries.user.get("round")}")
+        print(f"Round: {dictionaries.user.get('round')}")
         print(f"Player: {dictionaries.user.get('name')}")
         if dictionaries.user.get('score') is None:
             print("Score: 0")
