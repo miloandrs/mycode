@@ -1,0 +1,23 @@
+---
+- name: Another network playbook example
+  # The line below calls our group that does not have any clear-text passwords
+  hosts: aristaswitchessecure
+  # gather_facts ALWAYS runs setup.py (server module)
+  gather_facts: no # pre Ansible version 2.5 gather_facts for major network devices
+                   # was not supported
+                   # we had to use vendor specific modules, like eos_facts to gather_facts
+                   # since version 2.5, we can actually change gather_facts: no to "yes"
+                   # and collect the same information as "eos_facts"
+                   # in this case it doesnt matter much, as we're focused on how encrypting
+                   # secrets work
+  
+  # Instead we will store our encrypted information within a YAML file, vault.yml
+  vars_files:
+    - vault.yml
+  
+  tasks:
+  # If we run this and have gather_facts set to no, then ansible_facts will be about our network devs
+  - name: Harvest Arista facts
+    eos_facts:
+    when: ansible_network_os == 'eos'
+

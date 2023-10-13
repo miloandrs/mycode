@@ -29,13 +29,15 @@ sw-2
 [eosswitches:vars]
 ansible_network_os=eos
 
-[arista_switches]
-sw-1
-sw-2
-
-[arista_switches:vars]
+[aristaswitchessecure]
+; description of our arista inventory
+sw-1         ansible_host=sw-1
+sw-2         ansible_host=sw-2
+    
+[aristaswitchessecure:vars]
 ; variables specific to arista switches
 ansible_network_os=eos
-ansible_user=admin
-ansible_ssh_pass=alta3
-
+ansible_connection=network_cli
+ansible_become=yes
+ansible_become_method=enable
+ansible_user=admin    
