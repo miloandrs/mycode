@@ -1,0 +1,37 @@
+---
+- name: Ansible rest and tags
+  hosts: localhost
+  gather_facts: false
+
+  ## Lookup plugins can be used anywhere you can use templating in Ansible-
+  ## in a play, in variables files, or in Jinja2 templates for the template
+  ## module
+  vars:
+    myrsakey: "{{ lookup('file', '/home/student/.ssh/id_rsa.pub') }}"
+    astros: "{{ lookup('url', 'http://api.open-notify.org/astros.json') }}"
+
+  ## Tags are easy! ansible-playbook example.yml --tags "keytime,astros" # would run everything
+  ## ansible-playbook example.yml --tags "astros" # would NOT run the task named 'Key prep'
+  tasks:
+   - name: Key prep
+     debug:
+       msg: "Your RSA key is {{ myrsakey }}"
+     tags:
+      - keytime
+      - vmprep
+
+   - name: Quick ISS API checkup
+     debug:
+       msg: "Today on the ISS are: {{ astros.people }}"
+     tags:
+      - jsonwork
+      - astros
+
+   - name: Clean up that ISS data
+     debug:
+       msg: "Let me format that with a loop: {{ item }}"
+     loop: "{{ astros.people|map(attribute='name')|list }}"
+     tags:
+      - jsonwork
+      - astros
+

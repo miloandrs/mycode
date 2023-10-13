@@ -1,0 +1,36 @@
+---
+- name: cp and execute unique patches to hosts from patch server
+  hosts: planetexpress:!farnsworth:!zoidberg   # planetexpress group, no farnsworth, no zoidberg
+
+  tasks:
+  - name: Create a directory
+    file:
+      state: directory
+      path: ~/patches/  # make sure this directory exists on remote hosts
+
+  - name: Download our patch files
+    get_url:   # download to remote hosts
+      url: "https://static.alta3.com/files/napya/{{ inventory_hostname }}patch.py"
+      dest: "~/patches/"
+
+  - name: Install pip3
+    apt:
+      name:
+        - python3-pip
+    become: yes
+
+  - name: install prereq on target hosts
+    pip:
+      name: pexpect  # Name of package to install on remote hosts
+    become: yes
+
+  - name: Run Python script on remote hosts
+    expect:
+      command: "python3 /home/{{ inventory_hostname }}/patches/{{ inventory_hostname }}patch.py"
+      responses:
+        What:     # regex match on the word "What"
+          - "{{ ansible_user }}"
+          - 10.10.70.55
+          - TakeYourDataAndDoubleIt
+          - "{{ ansible_host }}"
+
